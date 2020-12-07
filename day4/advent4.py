@@ -104,7 +104,6 @@ def pidTest(toTest):
 validPassports, truelyValidPassports = 0, 0
 fields =       ['byr',   'iyr',   'eyr',   'hgt',   'hcl',   'ecl',   'pid']
 testfunctions = [byrTest, iyrTest, eyrTest, hgtTest, hclTest, eclTest, pidTest]
-#print(fields)
 infileH = open("input4","r")
 while True:
     try:
