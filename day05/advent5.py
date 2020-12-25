@@ -19,12 +19,8 @@ def findmyID(IDlist):
             return myID
 
 def readIDfile(filename: str):
-    IDlist = []
-    with open(filename,"r") as infileH:
-        for line in infileH:
-            currID = IDfromLine(line.strip())
-            IDlist.append(currID)
-    return IDlist
+    infileH = open(filename,"r")
+    return [ IDfromLine(line.strip()) for line in infileH ]
 
 if __name__ == "__main__":
     filename = "input5"
