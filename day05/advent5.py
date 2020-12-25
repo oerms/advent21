@@ -5,11 +5,7 @@
 
 def IDfromLine(line: str):
     """calculate seat ID from line input"""
-    IDraw = line.replace('F','0')
-    IDraw = IDraw.replace('B','1')
-    IDraw = IDraw.replace('R','1')
-    IDraw = IDraw.replace('L','0')
-    return int(IDraw, 2)
+    return int(line.replace('F','0').replace('B','1').replace('R','1').replace('L','0'), 2)
 
 def findmyID(IDlist):
     """find my seat from seatID list.
@@ -26,6 +22,6 @@ if __name__ == "__main__":
     filename = "input5"
     IDlist = readIDfile(filename)
     print('maxID:', max(IDlist))
-    print('minID:', min(IDlist))
+    #print('minID:', min(IDlist))
     print('myID:',findmyID(IDlist))
 
