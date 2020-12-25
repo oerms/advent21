@@ -19,8 +19,8 @@ def findmyID(IDlist):
             return myID
 
 def readIDfile(filename: str):
-    infileH = open(filename,"r")
-    return [ IDfromLine(line.strip()) for line in infileH ]
+    """read input file and convert lines into IDs, store in array and return"""
+    return [ IDfromLine(line.strip()) for line in open(filename,"r") ]
 
 if __name__ == "__main__":
     filename = "input5"
