@@ -22,13 +22,13 @@ def getNextGroup(fileH):
 
 def countGroup(group):
     """count union of answers in group"""
-    union = reduce(lambda a,b: a.union(b), group)
-    return len(union)
+    #return len( reduce(lambda a,b: a.union(b), group) )
+    return len( set.union(*group) )
 
 def countGroup2(group):
     """count intersection of answers in group"""
-    intersect = reduce(lambda a,b: a.intersection(b), group)
-    return len(intersect)
+    #return len( reduce(lambda a,b: a.intersection(b), group) )
+    return len( set.intersection(*group) )
 
 if __name__ == "__main__":
     #filename = "test6"  # uncomment for testfile
