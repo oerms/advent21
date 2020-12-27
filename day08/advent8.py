@@ -53,18 +53,19 @@ def fixProgram(program):
     except InfiniteLoop as err:
         pass
     for position in range(len(program)):
-        tempProgram = copy.deepcopy(program) # needed to copy the objects (lists in the list) themselves and not only the pointers to the objects
-        if tempProgram[position][0] == 'jmp':
-            tempProgram[position][0] = 'nop'
+        if program[position][0] == 'jmp':
+            program[position][0] = 'nop'
             try:
-                return [position, "'jmp' to 'nop'", runProgram(tempProgram)]
+                return [position, "'jmp' to 'nop'", runProgram(program)]
             except InfiniteLoop as err:
+                program[position][0] = 'jmp'
                 next
-        elif tempProgram[position][0] == 'nop':
-            tempProgram[position][0] = 'jmp'
+        elif program[position][0] == 'nop':
+            program[position][0] = 'jmp'
             try:
-                return [position, "'nop' to 'jmp'", runProgram(tempProgram)]
+                return [position, "'nop' to 'jmp'", runProgram(program)]
             except InfiniteLoop as err:
+                program[position][0] = 'nop'
                 next
         else:
             next
