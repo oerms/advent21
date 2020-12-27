@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# advent of code, day 7
+# advent of code, day 8
 # oerms
 
 import copy

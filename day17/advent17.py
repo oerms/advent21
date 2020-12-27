@@ -52,7 +52,7 @@ def evolveGrid(grid):
 """ PART 2 : FOUR DIMENSIONS """
 
 def initializeReactor4(filename,numCycles):
-    """load rules from filename"""
+    """4D: load rules from filename"""
     subgridInit = np.array(loadSubgridInput(filename))
     lensub = len(subgridInit)
     offset = numCycles+1
@@ -65,7 +65,7 @@ def initializeReactor4(filename,numCycles):
     return grid
 
 def loadSubgridInput4(filename):
-    """load input into array"""
+    """4D: load input into array"""
     subgrid = []
     with open(filename) as fileH:
         for line in fileH:
@@ -75,12 +75,12 @@ def loadSubgridInput4(filename):
     return subgrid
 
 def printGrid4(grid,planez,planew):
-    """debugging: print a specific [planez,planew] of the grid"""
+    """4D: debugging: print a specific [planez,planew] of the grid"""
     print('printing plane',planez,planew)
     print(grid[:,:,planez,planew])
 
 def evolveGrid4(grid):
-    """evolve reactor grid pocket by one cycle"""
+    """4D: evolve reactor grid pocket by one cycle"""
     tempGrid = grid.copy()
     for i in range(1,len(grid)-1):
         for j in range(1,len(grid)-1):
@@ -115,7 +115,7 @@ if __name__ == "__main__":
         #printGrid(grid,int(len(grid)/2))
         #printGrid(grid,int(len(grid)/2)+1)
 
-    print('part 2')
+    print('part 2: four dimensions')
     grid4 = initializeReactor4(filename,numCycles)
     #print('initial state')
     #printGrid4(grid4,int(len(grid4)/2),int(len(grid4)/2))
