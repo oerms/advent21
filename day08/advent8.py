@@ -7,8 +7,6 @@ def loadProgram(filename):
     """load rules from filename"""
     with open(filename) as fileH:
         program = [ (line.split()[0], int(line.split()[1])) for line in fileH ]
-        for line in fileH:
-            program.append(l)
     return program
 
 def runProgram(program):
