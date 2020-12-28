@@ -22,18 +22,25 @@ def loadAdapters(filename):
     adapters.sort()
     return adapters
 
-def findNumDifferences(adapters):
-    """find number of differences: return [number of diff=1, num of diff=3]"""
-    diff1 = 0
-    diff3 = 0
-    for adapter in range(len(adapters)-1):
-        if adapters[adapter+1]-adapters[adapter] == 1:
-            diff1 += 1
-        elif adapters[adapter+1]-adapters[adapter] == 3:
-            diff3 += 1
-        else:
-            raise DiffError(adapters[adapter+1]-adapters[adapter])
-    return [diff1,diff3]
+def numCombinations(stretch):
+    """number of combinations per stretch
+    this function is not generic for all stretch lengths!"""
+    if stretch == 1:
+        # one difference of 1 is the only combination
+        return 1
+    elif stretch == 2:
+        # two differences of 1 can either be kept or one adapter can be skipped
+        return 2
+    elif stretch == 3:
+        # combinations for three '1's are the following 4: (1 1 1), (1 2), (2 1), (3)
+        #   (here (1 2) means, that the second adapter has been skipped)
+        return 4
+    elif stretch == 4:
+        # similar to == 3: seven combinations
+        return 7
+    else:
+        print('stretch:',stretch)
+        raise 
 
 if __name__ == "__main__":
     # change order of lines for testcase
@@ -43,8 +50,20 @@ if __name__ == "__main__":
 
     print('part 1')
     adapters = loadAdapters(filename)
-    [diff1,diff3] = findNumDifferences(adapters)
-    print('diff1:',diff1)
-    print('diff3:',diff3)
+    diffArray = np.diff(adapters)
+    diff1 = (diffArray == 1).sum()
+    diff3 = (diffArray == 3).sum()
+    print('Joltage differences of 1: diff1 =',diff1)
+    print('Joltage differences of 3: diff3 =',diff3)
     print('diff1 * diff3:',diff1*diff3)
+
+    print()
+    print('part 2')
+    posOfThrees = np.where(diffArray == 3)[0]
+    # only stretches of consecutive joltage differences of 1 lead to new combinations
+    #   because only then can you skip one or more adapters
+    stretches = np.diff(np.insert(posOfThrees,0,-1))-1 
+    # to get the total number of combinations, the combinations of each stretch need to be multiplied
+    totalCombinations = np.array([numCombinations(stretch) for stretch in stretches if stretch != 0]).prod()
+    print('total combinations:',totalCombinations)
 
