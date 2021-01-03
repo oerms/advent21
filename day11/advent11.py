@@ -14,7 +14,7 @@ def initializeSeats(filename):
     return np.array(seats)
 
 def evolveSeats(seats,tempSeats,rules="old"):
-    """evolve reactor grid pocket by one cycle"""
+    """evolve seating area by one cycle"""
     for (i,j) in [(i,j) for i in range(len(seats)) for j in range(len(seats[0]))]:
         if not seats[i,j] == -1:
             if rules == "old":
