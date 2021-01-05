@@ -6,7 +6,7 @@
 import cmath
 
 def navigateStep(coord, direction, step):
-    """update coordinate and direction, as per the step instruction"""
+    """update coordinate and direction, as per the step instruction (part 1)"""
     #action = step[0]
     #value = step[1:]
     if step[0]=='N':
@@ -27,7 +27,7 @@ def navigateStep(coord, direction, step):
         raise
 
 def navigateByWaypoint(coord, waypoint, step):
-    """update coordinate and direction, as per the step instruction"""
+    """update coordinate and waypoint as per the step instruction (part 2)"""
     if step[0]=='N':
         return coord, waypoint + 1j*int(step[1:])
     elif step[0]=='S':
