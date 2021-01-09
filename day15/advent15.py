@@ -5,15 +5,6 @@
 
 import numpy as np
 
-class InfiniteLoop(Exception):
-    """Exception class for infinite loops"""
-    def __init__(self, position, message="Infinite loop detected"):
-        self.position= position
-        self.message = message
-
-    def __str__(self):
-        return self.message
-
 def playTheGameRecursive(numbers, length):
     """play the elves' number game using a recursive function. Quickly runs into the recursion limit of 1000..."""
     if len(numbers) >= length:
@@ -95,7 +86,6 @@ if __name__ == "__main__":
 
     print('part 1: playing the elves\' number game')
     length = 2020
-    length = 10
     #numbers = playTheGameLoop(initNumbers, length)    
     #print(length,'th number:', numbers[-1])
     lastNumber = playTheGameDict(initNumbers, length)    
