@@ -4,6 +4,7 @@
 # oerms
 
 import copy
+from functools import reduce
 
 def loadTickets(filename):
     """load rules from filename"""
@@ -20,11 +21,9 @@ def loadTickets(filename):
             fields[field] = []
             for rnge in valueRanges:
                 fields[field].append([ int(rnge.split('-')[0]), int(rnge.split('-')[1]) ]) 
-        #print(fields)
 
         fileH.readline()
         myTicket = [int(i) for i in fileH.readline().strip().split(',')]
-        #print(myTicket)
 
         fileH.readline()
         fileH.readline()
@@ -33,7 +32,6 @@ def loadTickets(filename):
             if line == '':
                 break
             nearbyTickets.append([int(i) for i in line.split(',')])
-        #print(nearbyTickets)
     return fields, myTicket, nearbyTickets
 
 def findInvalidValues(nearbyTickets, fields):
@@ -60,18 +58,63 @@ def findInvalidValues(nearbyTickets, fields):
 
     return invalidValues, validTickets
 
-if __name__ == "__main__":
-    # change order of following for testcase
-    filename = "input16"
-    filename = "test16"
-    filename = "test16b"
+def findFieldForValues(values, fields):
+    """given the list of values, find the only valid field"""
+    validFields = set( (field for field in fields) )
+    for field in fields:
+        # wenn alle values ins field passen, dann ist es valid, wenn nicht, entferne es vom set validFields
+        for val in values:
+            if (val < fields[field][0][0] or val > fields[field][0][1]) and \
+               (val < fields[field][1][0] or val > fields[field][1][1]):
+                validFields.remove(field)
+                break
+    if len(validFields) == 1:
+        return validFields.pop()
+    else:
+        # return None, if there is more than one valid field
+        return None
 
-    fields, myTicket, nearbyTickets = loadTickets(filename)
+def findMyTicket(fields, myTicketValues, validTickets):
+    """from the value ranges for each field, the values
+    on my ticket and the valid tickets,
+    find a dict of my fields and their values"""
+    myTicket = {}
+    # local copies for popping the items
+    fieldsT = copy.copy(fields)
+    myTicketValuesT = copy.copy(myTicketValues)
+    validTicketsT = [list(i) for i in zip(*validTickets)] # transposed!
+
+    # for the first position, there might be more than one valid field.
+    #   so look for which position there might be only one valid field,
+    #   put that field into myTicket and remove it and its position from all lists
+    while len(fieldsT) > 0: 
+        for pos, values in enumerate(validTicketsT):
+            validField = findFieldForValues(values, fieldsT)
+            # returns None if there is more than one valid field for the values.
+            #   if there is only one valid field,
+            #   add to myTicket and remove all data connected to it
+            if validField != None:
+                myTicket[validField] = myTicketValuesT[pos]
+                fieldsT.pop(validField)
+                myTicketValuesT.pop(pos)
+                validTicketsT.pop(pos)
+    return myTicket
+
+if __name__ == "__main__":
+    # change order of following lines to select testcase
+    filename = "test16b"
+    filename = "test16"
+    filename = "input16"
 
     print('part 1: finding invalid values in nearby tickets...')
+    fields, myTicketValues, nearbyTickets = loadTickets(filename)
     invalidValues, validTickets = findInvalidValues(nearbyTickets, fields)
     print('ticket scanning error rate (sum of invalid values):', sum(invalidValues))
 
-    print('part 2: determine fields...')
-    print('valid tickets', validTickets)
+    print('\npart 2: determining data for my ticket...')
+    myTicket = findMyTicket(fields, myTicketValues, validTickets)
+    print('Yay, found all the data for my ticket!')
+    departValues = [ val for key, val in myTicket.items() if key[:4] in 'departure']
+    departProd = reduce(lambda a,b: a*b, departValues)
+    print('product of all "departure" field values:', departProd)
 
